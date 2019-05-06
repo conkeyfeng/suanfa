@@ -84,9 +84,24 @@ The input string is "()()", with primitive decomposition "()" + "()".
 After removing outer parentheses of each part, this is "" + "" = "".
 
 class Solution {
-    public String removeOuterParentheses(String S) {
-
-    }
+       public String removeOuterParentheses(String S) {
+            StringBuilder sb = new StringBuilder();
+            int count=1;
+            int pre = 0;
+            for(int i=1;i< S.length();i++){
+                char c = S.charAt(0);
+                if(c=='('){
+                    count++;
+                }else{
+                    count--;
+                }
+                if(count==0){
+                    sb.append(S.substring(pre+1, i));
+                    pre = i+1;
+                }
+            }
+            return sb.toString();
+        }
 }
 
 
@@ -128,8 +143,19 @@ The longest arithmetic subsequence is [20,15,10,5].
 
 class Solution {
     public int longestArithSeqLength(int[] A) {
-
-    }
+            List<Map<Integer, Integer>> list = new LinkedList<>();
+            int count=0;
+            for(int i=0;i<A.length;i++){
+                Map<Long, Integer> curMap = new HashMap<>();
+                for(int j=0;j<i;j++){
+                    long diff = (long)A[i] - A[j];
+                    int pre = list.get(j).getOrDefault(diff, 1);
+                    curMap.put(diff, Math.max(curMap.getOrDefault(diff, 0), pre+1));
+                    count = Math.max(count, curMap.get(diff));
+                }
+            }
+            return count;
+        }
 }
 
 

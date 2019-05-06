@@ -3,13 +3,32 @@ import java.util.*;
 public class Solution {
     static int MOD = 1_000_000_007;
     public static void main(String[] args) {
-        Solution s = new Solution();
-        String ss = "[]";
-        System.out.println(ss.length());
         int[] arr = new int[]{0,1,0};
         Interval a = new Interval(0,30);
         Interval b = new Interval(5,10);
-        Interval c = new Interval(15,20);
+        Interval c = new Interval(15, 20);
+        Solution s = new Solution();
+        s.baseNeg2(3);
+    }
+
+    public String baseNeg2(int N) {
+        int idx = 0;
+        StringBuilder sb = new StringBuilder();
+        while(Math.pow(-2, idx)<=N){
+            idx++;
+        }
+        idx--;
+
+        while(idx>=0){
+            int sub = (int)Math.pow(-2, idx--);
+            if(sub<=N){
+                sb.append(1);
+                N -= sub;
+            }else
+                sb.append(0);
+
+        }
+        return sb.toString();
     }
 
 
