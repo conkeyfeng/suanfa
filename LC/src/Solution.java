@@ -14,171 +14,44 @@ public class Solution {
         Solution s = new Solution();
     }
 
-
-
+    // 1074
+    public int numSubmatrixSumTarget(int[][] matrix, int target) {
+        int row = matrix.length, col = matrix[0].length;
+        long[][] sum = new long[row][col];
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                sum[i][j] = matrix[i][j];
+                if(i>0)
+                    sum[i][j] += sum[i-1][j];
+                if(j>0)
+                    sum[i][j] += sum[i][j-1];
+                if(i>0 && j>0)
+                    sum[i][j] -= sum[i-1][j-1];
+            }
+        }
+        int res =0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                for(int ii=i;ii<row;ii++){
+                    for(int jj=j;jj<col;jj++){
+                        if(i==ii && j==jj)
+                            continue;
+                        long size = sum[ii][jj] -
+                                    (i>0?sum[i-1][jj]:0) -
+                                    (j>0?sum[ii][j-1]:0) +
+                                    (i>0&& i>0?sum[i-1][j-1]:0);
+                        if(size==target)
+                            res++;
+                    }
+                }
+            }
+        }
+        return res;
+    }
 
 }
 
 /**
- *
- * 912
- * public int[] sortArray(int[] nums){
- *         sort(nums, 0, nums.length-1);
- *         return nums;
- *     }
- *
- *     private void sort(int[] nums, int left, int right){
- *         if(left>=right)
- *             return;
- *         int pivot = nums[right];
- *         int idx= left;
- *         for(int i=left;i<right;i++){
- *             if(nums[i]<=pivot){
- *                 swap(nums, i, idx++);
- *             }
- *         }
- *         swap(nums, idx, right);
- *
- *         sort(nums, left, idx-1);
- *         sort(nums, idx+1, right);
- *     }
- *
- *     private void swap(int[] nums, int idx1, int idx2){
- *         int tmp = nums[idx1];
- *         nums[idx1] = nums[idx2];
- *         nums[idx2] = tmp;
- *     }
- *
- *  // 1014
- *     public int maxScoreSightseeingPair(int[] A){
- *         // a[i] +A[j] - j +i;
- *         int max = 0;
- *         PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> A[a] - a - A[b] + b);
- *         for(int i=0;i<A.length;i++){
- *             if(pq.size()>0){
- *                 int idx = pq.peek();
- *                 max = Math.max(max, A[idx]+A[i]+idx - i);
- *             }
- *             pq.add(i);
- *         }
- *
- *         return max;
- *     }
- *
- *     // 1017
- *     public String baseNeg2(int N){
- *         StringBuilder sb = new StringBuilder();
- *         String sign = N<0?"-":"";
- *         N = Math.abs(N);
- *         while(N!=0){
- *             sb.insert(0, N%2);
- *             N/=2;
- *         }
- *         sb.insert(0, sign);
- *         return sb.toString();
- *     }
- *
- *     // 1019
- *         // head,  2, 3, 1
- *     // ts: 1, 3
- *     // arr 3, 0, 0,
- *     public int[] nextLargerNodes(ListNode head){
- *         List<Integer> arr = new LinkedList<>();
- *         findNext(arr, head,  new TreeSet());
- *         int[] res = new int[arr.size()];
- *         for(int i=0;i<arr.size();i++){
- *             res[i] = arr.get(i);
- *         }
- *         return res;
- *     }
- *
- *     private void findNext(List<Integer> arr, ListNode head, TreeSet<Integer> ts){
- *         if(head==null)
- *             return;
- *         findNext(arr, head, ts);
- *         Integer nextBig = ts.higher(head.val);
- *         arr.add(0, nextBig==null?0:nextBig);
- *         ts.add(head.val);
- *     }
- *
- *
- * 1020. Number of Enclaves
- * Medium
- *
- * 89
- *
- * 13
- *
- * Favorite
- *
- * Share
- * Given a 2D array A, each cell is 0 (representing sea) or 1 (representing land)
- *
- * A move consists of walking from one land square 4-directionally to another land square, or off the boundary of the grid.
- *
- * Return the number of land squares in the grid for which we cannot walk off the boundary of the grid in any number of moves.
- *
- *
- *
- * Example 1:
- *
- * Input: [[0,0,0,0],[1,0,1,0],[0,1,1,0],[0,0,0,0]]
- * Output: 3
- * Explanation:
- * There are three 1s that are enclosed by 0s, and one 1 that isn't enclosed because its on the boundary.
- * Example 2:
- *
- * Input: [[0,1,1,0],[0,0,1,0],[0,0,1,0],[0,0,0,0]]
- * Output: 0
- * Explanation:
- * All 1s are either on the boundary or can reach the boundary.
- *
- * public int numEnclaves(int[][] A) {
- *
- *     }
- *
- *
- *     1074. Number of Submatrices That Sum to Target
- * Hard
- *
- * 100
- *
- * 4
- *
- * Favorite
- *
- * Share
- * Given a matrix, and a target, return the number of non-empty submatrices that sum to target.
- *
- * A submatrix x1, y1, x2, y2 is the set of all cells matrix[x][y] with x1 <= x <= x2 and y1 <= y <= y2.
- *
- * Two submatrices (x1, y1, x2, y2) and (x1', y1', x2', y2') are different if they have some coordinate that is different: for example, if x1 != x1'.
- *
- *
- *
- * Example 1:
- *
- * Input: matrix = [[0,1,0],[1,1,1],[0,1,0]], target = 0
- * Output: 4
- * Explanation: The four 1x1 submatrices that only contain 0.
- * Example 2:
- *
- * Input: matrix = [[1,-1],[-1,1]], target = 0
- * Output: 5
- * Explanation: The two 1x2 submatrices, plus the two 2x1 submatrices, plus the 2x2 submatrix.
- *
- *
- * Note:
- *
- * 1 <= matrix.length <= 300
- * 1 <= matrix[0].length <= 300
- * -1000 <= matrix[i] <= 1000
- * -10^8 <= target <= 10^8
- *
- * public int numSubmatrixSumTarget(int[][] matrix, int target) {
- *
- *     }
- *
  *
  *
  *
