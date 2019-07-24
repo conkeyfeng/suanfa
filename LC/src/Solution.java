@@ -12,6 +12,7 @@ public class Solution {
     static int MOD = 1_000_000_007;
     public static void main(String[] args) {
         Solution s = new Solution();
+        System.out.println(s.numSubmatrixSumTarget(new int[][]{{2,2},{1,1}}, 4));
     }
 
     // 1074
@@ -34,12 +35,10 @@ public class Solution {
             for(int j=0;j<col;j++){
                 for(int ii=i;ii<row;ii++){
                     for(int jj=j;jj<col;jj++){
-                        if(i==ii && j==jj)
-                            continue;
-                        long size = sum[ii][jj] -
-                                    (i>0?sum[i-1][jj]:0) -
-                                    (j>0?sum[ii][j-1]:0) +
-                                    (i>0&& i>0?sum[i-1][j-1]:0);
+                        long size = sum[ii][jj]
+                                    - (i>0?sum[i-1][jj]:0)
+                                    - (j>0?sum[ii][j-1]:0)
+                                    + (i>0&& j>0?sum[i-1][j-1]:0);
                         if(size==target)
                             res++;
                     }
@@ -54,75 +53,6 @@ public class Solution {
 /**
  *
  *
- *
- *     1063. Number of Valid Subarrays
- * Hard
- *
- * 26
- *
- * 4
- *
- * Favorite
- *
- * Share
- * Given an array A of integers, return the number of non-empty continuous subarrays that satisfy the following condition:
- *
- * The leftmost element of the subarray is not larger than other elements in the subarray.
- *
- *
- *
- * Example 1:
- *
- * Input: [1,4,2,5,3]
- * Output: 11
- * Explanation: There are 11 valid subarrays: [1],[4],[2],[5],[3],[1,4],[2,5],[1,4,2],[2,5,3],[1,4,2,5],[1,4,2,5,3].
- * Example 2:
- *
- * Input: [3,2,1]
- * Output: 3
- * Explanation: The 3 valid subarrays are: [3],[2],[1].
- * Example 3:
- *
- * Input: [2,2,2]
- * Output: 6
- * Explanation: There are 6 valid subarrays: [2],[2],[2],[2,2],[2,2],[2,2,2].
- *
- * public int validSubarrays(int[] nums) {
- *
- *     }
- *
- *     1104. Path In Zigzag Labelled Binary Tree
- * Medium
- *
- * 67
- *
- * 61
- *
- * Favorite
- *
- * Share
- * In an infinite binary tree where every node has two children, the nodes are labelled in row order.
- *
- * In the odd numbered rows (ie., the first, third, fifth,...), the labelling is left to right, while in the even numbered rows (second, fourth, sixth,...), the labelling is right to left.
- *
- *
- *
- * Given the label of a node in this tree, return the labels in the path from the root of the tree to the node with that label.
- *
- *dfsdf
- *
- * Example 1:
- *
- * Input: label = 14
- * Output: [1,3,4,14]
- * Example 2:
- *
- * Input: label = 26
- * Output: [1,2,6,10,26]
- *
- * public List<Integer> pathInZigZagTree(int label) {
- *
- *     }
  *
  *
  */
